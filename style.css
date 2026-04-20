@@ -116,6 +116,67 @@ section {
   align-items: center;
   text-align: center;
   padding: 8rem 2rem 5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(rgba(10, 14, 20, 0.2), rgba(10, 14, 20, 0.6)), url('hero_engineer.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-container {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+
+.hero-content {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4rem;
+    border-radius: 40px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    max-width: 900px;
+    animation: zoomInFade 1s ease-out;
+}
+
+@keyframes zoomInFade {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .hero-badge {
@@ -127,11 +188,11 @@ section {
     font-weight: 700;
     margin-bottom: 2rem;
     border: 1px solid var(--primary);
-    animation: fadeInDown 0.8s ease-out;
+    display: inline-block;
 }
 
 .hero h1 {
-  font-size: 5rem;
+  font-size: 4.5rem;
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 1.5rem;
@@ -139,7 +200,16 @@ section {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: fadeInUp 1s ease-out;
+  color: #fff; /* Fallback */
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 3rem;
+    }
+    .hero-content {
+        padding: 2.5rem 1.5rem;
+    }
 }
 
 .hero h1 span {
@@ -148,17 +218,16 @@ section {
 }
 
 .hero p {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--text-dim);
   max-width: 700px;
-  margin-bottom: 3rem;
-  animation: fadeInUp 1.2s ease-out;
+  margin: 0 auto 3rem auto;
 }
 
 .hero-btns {
     display: flex;
     gap: 1.5rem;
-    animation: fadeInUp 1.4s ease-out;
+    justify-content: center;
 }
 
 .cta-btn {
@@ -393,6 +462,53 @@ section {
     cursor: default;
 }
 
+#design-card, #embedded-card, #ai-domain-card, #robotics-card {
+    position: relative;
+    overflow: hidden;
+}
+
+#design-card::after, 
+#embedded-card::after, 
+#ai-domain-card::after, 
+#robotics-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+#design-card::after { background-image: url('design_background.png'); }
+#embedded-card::after { background-image: url('embedded_background.png'); }
+#ai-domain-card::after { background-image: url('ai_background.png'); }
+#robotics-card::after { background-image: url('robotics_background.png'); }
+
+#design-card:hover::after,
+#embedded-card:hover::after,
+#ai-domain-card:hover::after,
+#robotics-card:hover::after {
+    opacity: 0.3;
+}
+
+#design-card .domain-icon, 
+#design-card .domain-content,
+#embedded-card .domain-icon, 
+#embedded-card .domain-content,
+#ai-domain-card .domain-icon,
+#ai-domain-card .domain-content,
+#robotics-card .domain-icon,
+#robotics-card .domain-content {
+    position: relative;
+    z-index: 1;
+}
+
 .badge:hover {
     background: var(--primary);
     border-color: var(--primary);
@@ -559,6 +675,19 @@ section {
     margin-bottom: 2rem;
     font-size: 1.2rem;
     line-height: 1.4;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-grid.single-card {
+    grid-template-columns: 1fr;
+    max-width: 400px;
 }
 
 .project-story {
@@ -933,6 +1062,83 @@ footer {
 
 .modal-overlay.active {
     display: flex;
+}
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: var(--primary);
+}
+
+.contact-modal-content {
+    max-width: 600px;
+    width: 90%;
+    padding: 3rem;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-header h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+}
+
+.modal-subtitle {
+    color: var(--text-dim);
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+}
+
+.contact-form .form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.contact-form label {
+    display: block;
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+    border-radius: 12px;
+    color: #fff;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.contact-form textarea {
+    height: 180px;
+    resize: none;
 }
 
 .modal-content {

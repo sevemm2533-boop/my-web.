@@ -173,8 +173,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Smooth Scroll and Intersection Observer
+    // Contact Modal Logic
+    const contactModal = document.getElementById('contactModal');
+    const contactForm = document.getElementById('contactForm');
+    const closeContactBtn = document.getElementById('closeContactModal');
+    const contactNavLink = document.querySelector('a[href="#contact"]');
+
+    const openModal = () => {
+        if (contactModal) {
+            contactModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            if (window.lucide) window.lucide.createIcons();
+        }
+    };
+
+    const closeModal = () => {
+        if (contactModal) {
+            contactModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    };
+
+    if (contactNavLink) {
+        contactNavLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+    }
+
+    if (closeContactBtn) {
+        closeContactBtn.addEventListener('click', closeModal);
+    }
+
+    if (contactModal) {
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) closeModal();
+        });
+    }
+
+    // Handle Contact Form Submission (Mailto)
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+
+            const mailtoLink = `mailto:sevemm2533@gmail.com?subject=${encodeURIComponent(`[Portfolio Inquiry] ${subject}`)}&body=${encodeURIComponent(`Name: ${name}\n\nMessage:\n${message}`)}`;
+            
+            window.location.href = mailtoLink;
+            closeModal();
+            contactForm.reset();
+        });
+    }
+
+    // Smooth Scroll for other anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        if (anchor.getAttribute('href') === '#contact') return; // Handled by modal
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
