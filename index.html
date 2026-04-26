@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <nav>
@@ -330,7 +331,7 @@
     <section id="contact">
         <h2 class="section-title">CONNECT WITH ME</h2>
         <div class="contact-grid single-card">
-            <a href="mailto:sevemm2533@gmail.com" class="contact-card">
+            <a href="#contact" class="contact-card" id="contactCardTrigger">
                 <i data-lucide="mail"></i>
                 <span>Email</span>
                 <p>sevemm2533@gmail.com</p>
@@ -353,8 +354,8 @@
             <p class="modal-subtitle">Kim Sumin 엔지니어에게 직접 질문이나 의견을 남겨주세요.</p>
             <form id="contactForm" class="contact-form">
                 <div class="form-group">
-                    <label for="contactName">이름</label>
-                    <input type="text" id="contactName" placeholder="성함을 입력해 주세요" required>
+                    <label for="contactEmail">본인 이메일</label>
+                    <input type="email" id="contactEmail" placeholder="이메일을 입력해 주세요" required>
                 </div>
                 <div class="form-group">
                     <label for="contactSubject">제목</label>

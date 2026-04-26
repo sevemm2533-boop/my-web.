@@ -194,12 +194,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (contactNavLink) {
-        contactNavLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal();
-        });
-    }
+    const triggers = [contactNavLink, document.getElementById('contactCardTrigger')];
+    
+    triggers.forEach(trigger => {
+        if (trigger) {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        }
+    });
 
     if (closeContactBtn) {
         closeContactBtn.addEventListener('click', closeModal);
@@ -211,19 +215,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Handle Contact Form Submission (Mailto)
+    // Initialize EmailJS with Public Key
+    (function() {
+        emailjs.init("hJ4Ib1yer6K-3sD6S"); 
+    })();
+
+    // Handle Contact Form Submission (Real Email via EmailJS)
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
             const subject = document.getElementById('contactSubject').value;
             const message = document.getElementById('contactMessage').value;
 
-            const mailtoLink = `mailto:sevemm2533@gmail.com?subject=${encodeURIComponent(`[Portfolio Inquiry] ${subject}`)}&body=${encodeURIComponent(`Name: ${name}\n\nMessage:\n${message}`)}`;
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalBtnText = submitBtn.textContent;
             
-            window.location.href = mailtoLink;
-            closeModal();
-            contactForm.reset();
+            submitBtn.disabled = true;
+            submitBtn.textContent = '발송 중...';
+            submitBtn.style.opacity = '0.7';
+
+            // EmailJS 전송 파라미터 설정
+            const templateParams = {
+                from_email: email,
+                subject: subject,
+                message: message,
+                to_name: "Kim Sumin"
+            };
+
+            // 실제 전송 실행
+            emailjs.send('service_7uj3582', 'template_y4w9ucn', templateParams)
+                .then(function(response) {
+                    alert('메일이 성공적으로 발송되었습니다! 곧 확인해 보겠습니다.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.style.opacity = '1';
+                    closeModal();
+                    contactForm.reset();
+                }, function(error) {
+                    console.error('EmailJS Error:', error);
+                    alert('발송에 실패했습니다. EmailJS 설정이나 네트워크를 확인해 주세요.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.style.opacity = '1';
+                });
         });
     }
 
